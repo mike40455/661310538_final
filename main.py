@@ -180,6 +180,81 @@ class Stage02(QtWidgets.QDialog):
 	def nextStage(self):
 		self.close()
 
+		global stage03
+		try :
+			stage02.close()
+		except:
+			pass
+
+		ptr = wrapInstance(int(omui.MQtUtil.mainWindow()),QtWidgets.QWidget)
+		
+		stage03 = Stage03(parent = ptr)
+		stage03.show()
+
+	def loseStage(self):
+		self.close()
+
+		global loseStage
+		try :
+			loseStage.close()
+		except:
+			pass
+
+		ptr = wrapInstance(int(omui.MQtUtil.mainWindow()),QtWidgets.QWidget)
+		
+		loseStage = loseStage(parent = ptr)
+		loseStage.show()
+
+class Stage03(QtWidgets.QDialog):
+	def __init__(self, parent = None):
+		super().__init__(parent)
+		self.setWindowTitle("I am the bone of my sword")
+		self.resize(300,500)
+
+		self.mainLayout = QtWidgets.QVBoxLayout()
+		self.setLayout(self.mainLayout)
+
+		self.imageLabel = QtWidgets.QLabel()
+		self.imagePixmap = QtGui.QPixmap(f"{RESOURCES_PATH}/images/bocchi the rock.png")
+		scaled_pixmap = self.imagePixmap.scaled(
+			QtCore.QSize(300,300),
+			QtCore.Qt.KeepAspectRatio,
+			QtCore.Qt.SmoothTransformation
+		)
+		self.imageLabel.setPixmap(scaled_pixmap)
+		self.imageLabel.setStyleSheet("background-color: 0;")
+		self.imageLabel.setAlignment(QtCore.Qt.AlignCenter)
+		self.mainLayout.addWidget(self.imageLabel)
+
+		self.mainLayout.addSpacing(8)
+		self.quiz01 = QtWidgets.QLabel("ตัวละครจากรูปภาพดังกล่าวมีชื่อเรียกว่าอะไร")
+		self.quiz01.setStyleSheet("font-size : 15px")
+		self.mainLayout.addWidget(self.quiz01)
+
+		self.button01 = QtWidgets.QPushButton("Bocchi The Rock!")
+		self.button01.clicked.connect(self.nextStage)
+		self.button02 = QtWidgets.QPushButton("Bocchi The Glock!")
+		self.button02.clicked.connect(self.nextStage)
+		self.button03 = QtWidgets.QPushButton("Bocchi The Rock Johnson With Glock!")
+		self.button03.clicked.connect(self.nextStage)
+		self.button04 = QtWidgets.QPushButton("Bocchi The Fuck Is This")
+		self.button04.clicked.connect(self.nextStage)
+
+		self.mainLayout.addSpacing(12)
+		self.mainLayout.addWidget(self.button01)
+		self.mainLayout.addWidget(self.button02)
+		self.mainLayout.addWidget(self.button03)
+		self.mainLayout.addWidget(self.button04)
+
+		self.mainLayout.addStretch()
+
+		self.noneButton = QtWidgets.QPushButton("ไม่มีข้อถูก")
+		self.noneButton.clicked.connect(self.loseStage)
+		self.mainLayout.addWidget(self.noneButton)
+
+	def nextStage(self):
+		self.close()
+
 		global winStage
 		try :
 			winStage.close()
@@ -204,6 +279,8 @@ class Stage02(QtWidgets.QDialog):
 		
 		loseStage = loseStage(parent = ptr)
 		loseStage.show()
+
+
 
 class winStage(QtWidgets.QDialog):
 	def __init__(self, parent = None):
